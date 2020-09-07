@@ -78,7 +78,7 @@ export default new Vuex.Store({
       littleName: "机械之家",
       copy: "版权所有 © 2002, All Rights Reserved."
     },
-    imgUrl: "http://117.67.145.145:18088"
+    imgUrl: "http://60.168.16.182:18088"
   },
 
   modules: {
