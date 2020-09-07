@@ -1,0 +1,280 @@
+.HeaderTop {
+  height: 44px;
+  border-bottom: 1px solid #ececec;
+  line-height: 44px;
+  font-size: 14px;
+
+  .rightBtn {
+    font-size: 12px;
+
+    .btn {
+      overflow: hidden;
+      margin: 0;
+
+      li {
+        float: left;
+        margin-right: 30px;
+
+        i {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .login {
+    span {
+      padding: 0 10px;
+    }
+  }
+
+  .isLogin {
+    position: relative;
+    cursor: pointer;
+
+    .user {
+      margin-right: 10px;
+    }
+
+    dl {
+      line-height: 1.5;
+      width: 285px;
+      position: absolute;
+      top: 44px;
+      right: 0;
+      z-index: 100;
+      display: none;
+      background: #fff;
+      box-shadow: 0 0 27px 6px rgba(162, 162, 162, 0.17);
+
+      a {
+        display: block;
+        padding: 0 20px;
+        overflow: hidden;
+      }
+
+      dt {
+        height: 65px;
+        background: #505154;
+
+        a {
+          height: 65px;
+
+          h2,
+          p {
+            color: #fff;
+            margin: 0;
+          }
+
+          h2 {
+            margin-top: 8px;
+            font-size: 16px;
+            margin-bottom: 4px;
+          }
+
+          .icon {
+            color: #fff;
+            margin-top: 24px;
+          }
+        }
+
+        &:hover .icon {
+          color: #fff;
+        }
+      }
+
+      dd {
+        margin: 0;
+        line-height: 44px;
+        font-size: 16px;
+        padding: 0 20px;
+        @include webkit(transition, all 0.3s ease 0s);
+      }
+
+      dd a {
+        line-height: 44px;
+        font-size: 16px;
+      }
+
+      dd:hover {
+        background: #f6f6f6;
+      }
+
+      .quit {
+        border-top: 1px solid #f6f6f6;
+      }
+    }
+
+    &:hover {
+      dl {
+        display: block;
+      }
+    }
+  }
+}
+
+.HeaderSearch {
+  height: 90px;
+  border: 1px solid transparent;
+
+  input:focus,
+  button:focus {
+    outline: none;
+  }
+
+  .logo {
+    float: left;
+    margin-top: 14px;
+  }
+
+  .searchbox {
+    float: right;
+    margin-top: 19px;
+
+    button {
+      border: 0;
+      cursor: pointer;
+      float: left;
+    }
+
+    .search {
+      float: left;
+      width: 480px;
+      height: 50px;
+      border: 1px solid #ff7a00;
+      display: flex;
+
+      label {
+        float: left;
+        width: 64px;
+        text-align: center;
+        line-height: 48px;
+
+        i {
+          font-size: 26px;
+          color: #c0c0c7;
+        }
+      }
+
+      input {
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        *font-size: 100%;
+        float: left;
+        border: 0;
+        flex: 1;
+        height: 48px;
+        font-size: 14px;
+      }
+
+      button {
+        float: left;
+        width: 106px;
+        height: 48px;
+        background: #ff7a00;
+        font-size: 16px;
+        color: #fff;
+      }
+    }
+
+    .free {
+      width: 190px;
+      height: 50px;
+      border: 1px solid #ff7a00;
+      font-size: 16px;
+      color: #ff7a00;
+      background: #fff;
+      transition: 0.5s all;
+      margin-left: 35px;
+
+      &:hover {
+        background: #ff7a00;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.HeaderPhone {
+  height: 124px;
+  padding: 24px 0;
+
+  .logo {
+    float: left;
+
+    img {
+      width: 260px;
+    }
+  }
+
+  .title {
+    float: left;
+    margin-top: 13px;
+    line-height: 50px;
+    border-left: 1px solid #e3e3e3;
+    color: #333333;
+    font-size: 24px;
+    margin-left: 50px;
+    padding-left: 50px;
+  }
+
+  .phone {
+    line-height: 76px;
+    float: right;
+
+    i {
+      color: #e0584b;
+      font-size: 40px;
+      vertical-align: sub;
+      margin-right: 22px;
+    }
+
+    span {
+      color: #121212;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+}
+
+.HeaderNav {
+  background: #0152f5;
+  height: 62px;
+
+  .w {
+    position: relative;
+  }
+
+  .logo {
+    margin-top: 6px;
+    float: left;
+  }
+
+  ul {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+
+    li {
+      float: left;
+
+      a {
+        display: block;
+        height: 62px;
+        line-height: 62px;
+        color: #fff;
+        width: 180px;
+        text-align: center;
+        font-size: 18px;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
