@@ -9,7 +9,7 @@
     <!-- 主营业务 -->
     <business
       :businessLeft="businessLeft"
-      :businessRight="businessRight"
+      :businessRight="businessRight.slice(0,6)"
     ></business>
     <banner :banner="advMid"></banner>
     <!--新闻中心 -->

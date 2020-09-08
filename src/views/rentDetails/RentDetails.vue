@@ -408,42 +408,22 @@ export default {
       
       let data1 =
           {
-            //cid: this.head.id,
-            //createBy: "string",
-            //createTime: "2020-09-08T05:16:53.088Z",
-            //ctime: "2020-09-08T05:16:53.088Z",
-            //ctitle: this.Data.name,
-            //ctype: this.head.type===1?'出租':'求租',
-            //id: this.head.id,
-            //mid: this.$store.state.app.user.user_id,
-            //params: {},
-            //remark: "string",
-            //searchValue: "string",
-            cid: 0,
-            createBy: "string",
-            createTime: "2020-09-08T05:16:53.088Z",
-            ctime: "2020-09-08T05:16:53.088Z",
-            ctitle: "string",
-            ctype: "string",
-            id: 0,
-            mid: 0,
-            params: {},
-            remark: "string",
-            searchValue: "string",
-            updateBy: "string",
-            updateTime: "2020-09-08T05:16:53.088Z"
+            cid: 13,
+            ctitle: "测试",
+            ctype: this.head.type===1?'出租':'求租',
+            mid: this.$store.state.app.user.user_id
           }
       let mid = this.$store.state.app.user.user_id;
       let data = {
         cid: this.mid,
         ctitle: this.Data.name,
-        ctype: "出租",
+        ctype: this.head.type===1?'出租':'求租',
         mid: mid,
       };
       if (mid) {
         this.loadingState = !this.loadingState;
         console.log('mid')
-        saveFavorites(data1)
+        saveFavorites(data)
           .then((res) => {
             console.log(res)
             this.loadingState = !this.loadingState;
