@@ -152,6 +152,8 @@ export default {
       visible: false,
       loadingState: false,
       datax: null,
+      head:{},
+      out:{},
       title: "",
       Data: {
         name: "",
@@ -358,6 +360,9 @@ export default {
     //获取一个机械详细信息
     Mechanicl(this.mid)
       .then((res) => {
+        console.log(res)
+        this.head=res.head;
+        this.out=res.out;
         this.datax = res;
         this.title = res.out.detail;
         this.title = res.out.detail;
@@ -400,6 +405,34 @@ export default {
     },
     //收藏
     keep() {
+      
+      let data1 =
+          {
+            //cid: this.head.id,
+            //createBy: "string",
+            //createTime: "2020-09-08T05:16:53.088Z",
+            //ctime: "2020-09-08T05:16:53.088Z",
+            //ctitle: this.Data.name,
+            //ctype: this.head.type===1?'出租':'求租',
+            //id: this.head.id,
+            //mid: this.$store.state.app.user.user_id,
+            //params: {},
+            //remark: "string",
+            //searchValue: "string",
+            cid: 0,
+            createBy: "string",
+            createTime: "2020-09-08T05:16:53.088Z",
+            ctime: "2020-09-08T05:16:53.088Z",
+            ctitle: "string",
+            ctype: "string",
+            id: 0,
+            mid: 0,
+            params: {},
+            remark: "string",
+            searchValue: "string",
+            updateBy: "string",
+            updateTime: "2020-09-08T05:16:53.088Z"
+          }
       let mid = this.$store.state.app.user.user_id;
       let data = {
         cid: this.mid,
@@ -409,12 +442,15 @@ export default {
       };
       if (mid) {
         this.loadingState = !this.loadingState;
-        saveFavorites(data)
+        console.log('mid')
+        saveFavorites(data1)
           .then((res) => {
+            console.log(res)
             this.loadingState = !this.loadingState;
             this.Data.keep = !this.Data.keep;
           })
           .catch((err) => {
+            console.log('收藏失败')
             this.loadingState = !this.loadingState;
             console.log(err);
           });

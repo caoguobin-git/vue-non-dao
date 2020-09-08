@@ -1,6 +1,6 @@
 <template>
   <div class="RentItem">
-    <router-link to="/rentDetails">
+    <router-link :to="'/rentDetails/'+rentData.id">
       <img v-lazy="getPic" src="" alt="">
       <div class="title">
         <div class="mt">
