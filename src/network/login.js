@@ -12,22 +12,22 @@ export function getyanzPicture() {
 /**
  * 登录
  */
-// export function trueLogin() {
-//   return service.request({
-//     method: "post",
-//     url: "/auth/oauth/token?client_id=webapi&client_secret=123456&grant_type=password&username=member1&password=123456&userType=webapi"
-//   })
-// }
-export function trueLogin(data) {
+export function trueLogin() {
   return service.request({
     method: "post",
-    url: "/auth/oauth/token",
-    params: {
-      client_id: "webapi",
-      client_secret: "123456",
-      grant_type: "password",
-      password: data.password,
-      username: data.username
-    }
+    url: "/auth/oauth/token?client_id=webapi&client_secret=123456&grant_type=password&username=member1&password=123456&userType=webapi"
   })
 }
+// export function trueLogin(data) {
+//   return service.request({
+//     method: "post",
+//     url: "/auth/oauth/token",
+//     params: {
+//       client_id: "webapi",
+//       client_secret: "123456",
+//       grant_type: "password",
+//       password: data.password,
+//       username: data.username
+//     }
+//   })
+// }
