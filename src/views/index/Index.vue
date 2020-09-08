@@ -127,6 +127,7 @@ export default {
         //获取主营业务 机械信息获取
         getRelease(releseData)
           .then((res) => {
+            console.log(res)
             this.businessRight = res.list;
             //获取主营业务 机械信息获取
             // let dictType1 = this.$store.state.app.dictList[0].dictType;

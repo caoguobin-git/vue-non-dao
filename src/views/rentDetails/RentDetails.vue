@@ -19,8 +19,8 @@
           <ul>
             <li>
               价格：<span class="price"
-                >￥<i>{{ Data.price }}元</i>/{{ Data.time }}</span
-              >
+            >￥<i>{{ Data.price }}元</i>/{{ Data.time }}</span
+            >
             </li>
             <!-- <li>
               库存：<span>{{ Data.num }}</span>
@@ -34,21 +34,22 @@
           </ul>
           <div class="btn">
             <a-button
-              class="btn keep"
-              @click="keep"
-              type="primary"
-              :loading="loadingState"
-              >{{ Data.keep ? "取消收藏" : "加入收藏" }}</a-button
+                class="btn keep"
+                @click="keep"
+                type="primary"
+                :loading="loadingState"
+            >{{ Data.keep ? "取消收藏" : "加入收藏" }}
+            </a-button
             >
             <div class="btn phone" @click="showModal">获取联系方式</div>
           </div>
           <h3>免责声明：具体情况以实际签约为准，平台概不负责！</h3>
           <a-modal
-            v-model="visible"
-            title="联系方式"
-            @ok="handleOk"
-            :footer="null"
-            dialogClass="dialog"
+              v-model="visible"
+              title="联系方式"
+              @ok="handleOk"
+              :footer="null"
+              dialogClass="dialog"
           >
             <!-- <p v-show="Data.company">公司名称:{{Data.company}}</p> -->
             <p>联系人:{{ Data.people }}</p>
@@ -70,30 +71,30 @@
             <a-tab-pane key="1" tab="设备参数">
               <table border="0" cellpadding="0" cellspacing="0">
                 <tbody>
-                  <tr>
-                    <td class="head" colspan="4"><span>*</span>常规参数</td>
-                  </tr>
-                  <tr>
-                    <td>设备型号</td>
-                    <td>{{ Data.type }}</td>
-                    <td>环保等级</td>
-                    <td>{{ Data.level }}</td>
-                  </tr>
-                  <tr>
-                    <td>车辆出厂时间</td>
-                    <td>{{ Data.date }}</td>
-                    <td>燃油类型</td>
-                    <td>{{ Data.fuel }}</td>
-                  </tr>
-                  <tr>
-                    <td class="head" colspan="4"><span>*</span>发动机</td>
-                  </tr>
-                  <tr>
-                    <td>额定功率</td>
-                    <td>{{ Data.power }}</td>
-                    <td>车长</td>
-                    <td>{{ Data.sizel }}</td>
-                  </tr>
+                <tr>
+                  <td class="head" colspan="4"><span>*</span>常规参数</td>
+                </tr>
+                <tr>
+                  <td>设备型号</td>
+                  <td>{{ Data.type }}</td>
+                  <td>环保等级</td>
+                  <td>{{ Data.level }}</td>
+                </tr>
+                <tr>
+                  <td>车辆出厂时间</td>
+                  <td>{{ Data.date }}</td>
+                  <td>燃油类型</td>
+                  <td>{{ Data.fuel }}</td>
+                </tr>
+                <tr>
+                  <td class="head" colspan="4"><span>*</span>发动机</td>
+                </tr>
+                <tr>
+                  <td>额定功率</td>
+                  <td>{{ Data.power }}</td>
+                  <td>车长</td>
+                  <td>{{ Data.sizel }}</td>
+                </tr>
                 </tbody>
               </table>
             </a-tab-pane>
@@ -106,10 +107,10 @@
               </div>
               <div class="pagex">
                 <a-pagination
-                  :default-current="1"
-                  :total="200"
-                  :default-page-size="12"
-                  :item-render="itemRender"
+                    :default-current="1"
+                    :total="200"
+                    :default-page-size="12"
+                    :item-render="itemRender"
                 />
               </div>
             </a-tab-pane>
@@ -119,11 +120,11 @@
               </div>
               <div class="pagex">
                 <a-pagination
-                  class="top"
-                  :default-current="1"
-                  :total="200"
-                  :default-page-size="12"
-                  :item-render="itemRender"
+                    class="top"
+                    :default-current="1"
+                    :total="200"
+                    :default-page-size="12"
+                    :item-render="itemRender"
                 />
               </div>
             </a-tab-pane>
@@ -141,8 +142,8 @@ import swiper from "./child/Swiper";
 import leftItem from "./child/LeftItem";
 import rent from "views/rent/child/RentItem";
 import ask from "views/rent/child/AskItem";
-import { saveFavorites,deleteFavorites,getFavorites} from "network/favorites.js";
-import { Mechanicl, RecommendMec } from "network/rentDetails.js";
+import {saveFavorites, deleteFavorites, getFavorites} from "network/favorites.js";
+import {Mechanicl, RecommendMec} from "network/rentDetails.js";
 
 export default {
   name: "RentDetails",
@@ -152,8 +153,8 @@ export default {
       visible: false,
       loadingState: false,
       datax: null,
-      head:{},
-      out:{},
+      head: {},
+      out: {},
       title: "",
       Data: {
         name: "",
@@ -271,7 +272,7 @@ export default {
       rentData: [
         {
           img:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
+              "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
           num: "22000",
           continued: "月",
           address: "南京",
@@ -281,7 +282,7 @@ export default {
         },
         {
           img:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
+              "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
           num: "22000",
           continued: "月",
           address: "南京",
@@ -291,7 +292,7 @@ export default {
         },
         {
           img:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
+              "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
           num: "22000",
           continued: "月",
           address: "南京",
@@ -301,7 +302,7 @@ export default {
         },
         {
           img:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
+              "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
           num: "22000",
           continued: "月",
           address: "南京",
@@ -311,7 +312,7 @@ export default {
         },
         {
           img:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
+              "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
           num: "22000",
           continued: "月",
           address: "南京",
@@ -321,7 +322,7 @@ export default {
         },
         {
           img:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
+              "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597608185889&di=640e1a4f43bd8f783bbf30066604c976&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg",
           num: "22000",
           continued: "月",
           address: "南京",
@@ -345,7 +346,7 @@ export default {
           people: "张先生",
         },
       ],
-      favorites:{}
+      favorites: {}
     };
   },
   components: {
@@ -360,51 +361,61 @@ export default {
     this.mid = this.$route.params.mid;
     //获取一个机械详细信息
     Mechanicl(this.mid)
-      .then((res) => {
-        console.log(res)
-        this.head=res.head;
-        this.out=res.out;
-        this.datax = res;
-        this.title = res.out.detail;
-        this.title = res.out.detail;
-        this.Data.name = res.out.ramark;
-        this.Data.type = res.out.mechanics;
-        this.Data.price = res.out.price;
-        this.Data.fuel = res.out.fuel;
-        this.Data.level = res.out.level;
-        this.Data.mechanics = res.out.mechanics;
-        this.Data.date = res.out.mdate;
-        this.Data.power = res.out.power;
-        this.Data.sizel = res.out.sizel;
-        this.Data.address = res.out.area;
-        this.Data.people = res.out.linkman;
-        this.Data.phone = res.out.linkphone;
-        this.Data.type = res.out.mechanics;
-        this.Data.xing = res.out.brand;
-        this.title = res.out.ramark;
-        this.swiperList = res.out.pic.split(",");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          console.log(res)
+          this.head = res.head;
+          this.out = res.out;
+          this.datax = res;
+          this.title = res.out.detail;
+          this.title = res.out.detail;
+          this.Data.name = res.out.ramark;
+          this.Data.type = res.out.mechanics;
+          this.Data.price = res.out.price;
+          this.Data.fuel = res.out.fuel;
+          this.Data.level = res.out.level;
+          this.Data.mechanics = res.out.mechanics;
+          this.Data.date = res.out.mdate;
+          this.Data.power = res.out.power;
+          this.Data.sizel = res.out.sizel;
+          this.Data.address = res.out.area;
+          this.Data.people = res.out.linkman;
+          this.Data.phone = res.out.linkphone;
+          this.Data.type = res.out.mechanics;
+          this.Data.xing = res.out.brand;
+          this.title = res.out.ramark;
+          this.swiperList = res.out.pic.split(",");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     RecommendMec()
-      .then((res) => {
-        this.itemData = res.list;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          this.itemData = res.list;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   },
   methods: {
-  
-    getFavorites(data){
+    
+    getFavorites(data) {
       getFavorites(data)
-      .then(res=>{
-        console.log(res)
-        for (let i = 0; i < res.data.length; i++) {
-          this.$set(this.favorites,res.data[i].cid,res.data[i])
-        }
-      })
+          .then(res => {
+            for (let i = 0; i < res.data.length; i++) {
+              this.favorites={}
+              this.$set(this.favorites, res.data[i].cid, res.data[i])
+            }
+              console.log(this.favorites)
+              let flag = false;
+              for (let favoritesKey in this.favorites) {
+                console.log(favoritesKey, this.head.id)
+                console.log(parseInt(favoritesKey) === this.head.id)
+                if (parseInt(favoritesKey) === this.head.id) {
+                  flag = true
+                }
+              }
+              this.Data.keep = flag
+          })
     },
     //获取联系方式点击
     showModal() {
@@ -416,12 +427,12 @@ export default {
     },
     //收藏
     keep() {
-      if (!this.Data.keep){
+      if (!this.Data.keep) {
         let mid = this.$store.state.app.user.user_id;
         let data = {
           cid: this.head.id,
           ctitle: this.Data.name,
-          ctype: this.head.type===1?'出租':'求租',
+          ctype: this.head.type === 1 ? '出租' : '求租',
           mid: mid,
         };
         if (mid) {
@@ -430,16 +441,16 @@ export default {
           saveFavorites(data)
               .then((res) => {
                 console.log(res)
-                this.getFavorites({mid:this.$store.state.app.user.user_id});
-  
-                if (res.code===200){
-                  this.$message.success(res.msg)
+                this.getFavorites({mid: this.$store.state.app.user.user_id});
+                
+                if (res.code === 200) {
+                  this.$message.success('收藏成功')
                   this.loadingState = !this.loadingState;
                   this.Data.keep = !this.Data.keep;
-                }else if (res.code===500){
+                } else if (res.code === 500) {
                   this.$message.error(res.msg)
                   this.loadingState = !this.loadingState;
-                  if (res.msg.indexOf('已收藏信息')!=-1){
+                  if (res.msg.indexOf('已收藏信息') != -1) {
                     this.Data.keep = !this.Data.keep;
                   }
                 }
@@ -452,16 +463,21 @@ export default {
         } else {
           this.$message.error("请登录");
         }
-      }else {
+      } else {
         console.log('hello')
-        this.Data.keep=!this.Data.keep
-        
+        //this.Data.keep = !this.Data.keep
+        this.loadingState=true
         deleteFavorites(this.favorites[this.head.id].id)
-        .then(res=>{
-          console.log(res)
-          this.getFavorites({mid:this.$store.state.app.user.user_id});
-          this.$message.success(res.msg)
-        })
+            .then(res => {
+              console.log(res)
+              this.loadingState=false
+              if (res.code == 200) {
+                this.$message.success('取消收藏成功')
+              } else if (res.code === 500) {
+                this.$message.error(res.msg)
+              }
+              this.getFavorites({mid: this.$store.state.app.user.user_id});
+            })
       }
       
       //this.getFavorites({mid:this.$store.state.app.user.user_id});
@@ -469,15 +485,28 @@ export default {
     //分页器文字改变
     itemRender(current, type, originalElement) {
       if (type === "prev") {
-        return <a class="ant-pagination-item-link page">上一页</a>;
-      } else if (type === "next") {
-        return <a class="ant-pagination-item-link page">下一页</a>;
-      }
-      return originalElement;
-    },
+        return
+        <
+            a
+            
+            class
+                
+                ="ant-pagination-item-link page">上一页
+          < /a>;
+            } else if (type === "next") {
+              return
+              <
+              a
+              
+              class
+              
+              = "ant-pagination-item-link page" > 下一页 < /a>;
+              }
+              return originalElement;
+              },
   },
   mounted() {
-    this.getFavorites({mid:this.$store.state.app.user.user_id});
+    this.getFavorites({mid: this.$store.state.app.user.user_id});
   }
 };
 </script>
@@ -486,38 +515,48 @@ export default {
 .mt {
   overflow: hidden;
   padding-bottom: 70px;
+  
   .swiper {
     float: left;
     width: 450px;
   }
+  
   .title {
     width: 715px;
     float: right;
+    
     h2 {
       font-size: 24px;
       color: #000000;
     }
+    
     p {
       color: #999999;
       padding-bottom: 18px;
       border-bottom: 1px solid #e9e9e9;
       margin-bottom: 10px;
+      
       span {
         padding: 0 10px;
       }
     }
+    
     ul {
       margin: 0;
       padding: 0;
       overflow: hidden;
+      
       li {
         color: #333333;
         margin-bottom: 14px;
+        
         span {
           color: #666666;
+          
           &.price {
             color: #ff7a00;
             font-size: 20px;
+            
             i {
               font-size: 32px;
               font-style: normal;
@@ -526,9 +565,11 @@ export default {
         }
       }
     }
+    
     .btn {
       overflow: hidden;
       margin: 8px 0 13px 0;
+      
       .btn {
         width: 150px;
         height: 34px;
@@ -539,15 +580,18 @@ export default {
         margin-right: 20px;
         cursor: pointer;
       }
+      
       .keep {
         background: #ff7a00;
         border-radius: 0;
         border: 0;
       }
+      
       .phone {
         background: #0152f5;
       }
     }
+    
     h3 {
       margin: 0;
       color: #999999;
@@ -555,38 +599,48 @@ export default {
     }
   }
 }
+
 .mb {
   overflow: hidden;
+  
   .leftBox {
     float: left;
     width: 264px;
   }
+  
   .rightBox {
     float: right;
     width: 900px;
+    
     .ant-tabs-tab {
       padding-left: 0 !important;
     }
+    
     table {
       width: 100%;
       border-top: 1px solid #e9e9e9;
       border-left: 1px solid #e9e9e9;
       position: relative;
+      
       tr {
         border-bottom: 1px solid #e9e9e9;
+        
         td {
           position: relative;
           padding: 0 33px;
           line-height: 50px;
           color: #666666;
+          
           &.head {
             color: #333333;
             padding: 0 18px;
+            
             span {
               color: #cc242c;
               margin-right: 12px;
             }
           }
+          
           &:after {
             content: "";
             position: absolute;
@@ -598,6 +652,7 @@ export default {
           }
         }
       }
+      
       &:after {
         content: "";
         position: absolute;
@@ -608,15 +663,17 @@ export default {
         background: #e9e9e9;
       }
     }
-
+    
     .jianjie {
       color: #666666;
     }
+    
     .rent {
       float: left;
       margin-right: 40px;
     }
   }
+  
   .top {
     margin-top: 20px;
   }
