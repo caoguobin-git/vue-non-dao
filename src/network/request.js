@@ -8,7 +8,7 @@ import {
 // 1.创建axios的实例
 const service = axios.create({
   // baseURL: "",
-  baseURL: 'http://mall.rainbase.cn',
+  //baseURL: 'http://mall.rainbase.cn',
   // baseURL: 'http://lirongxin.cn:1234',
   timeout: 15000,
 });

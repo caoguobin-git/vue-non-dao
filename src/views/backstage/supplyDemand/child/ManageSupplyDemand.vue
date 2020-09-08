@@ -241,10 +241,13 @@ export default {
       }
     },
     onDelete(key) {
-      const data = [...this.data];
-      this.data = data.filter((item) => item.key !== key);
-      this.$options.methods.send();
-      this.$message.error("删除成功");
+      //const data = [...this.data];
+      //this.data = data.filter((item) => item.key !== key);
+      //console.log(key)
+      let deleteKeys= []
+      deleteKeys.push(key)
+      this.send(deleteKeys);
+      //this.$message.error("删除成功");
     },
     AllDelete() {
       const that = this;
@@ -254,22 +257,25 @@ export default {
         okType: "danger",
         confirmLoading: true,
         onOk() {
-          that.selectedRowKeys.forEach((item) => {
-            that.data = that.data.filter((item2) => item2.key !== item);
-          });
-          that.selectedRowKeys = [];
-          that.$options.methods.send();
-          that.$message.error("删除成功");
+          //that.selectedRowKeys.forEach((item) => {
+          //  that.data = that.data.filter((item2) => item2.key !== item);
+          //});
+          //that.selectedRowKeys = [];
+          //that.$options.methods.send();
+          //that.$message.error("删除成功");
+          that.send(that.selectedRowKeys)
         },
         onCancel() {
-          that.$message.error("删除失败");
+          //that.$message.error("删除失败");
         },
       });
     },
-    send() {
-      let data = [1, 2];
-      sendDelete(data)
+    send(ids) {
+      //let data = [1, 2];
+      sendDelete(ids)
           .then((res) => {
+            this.$message.error("删除成功");
+            this.getList();
             console.log(res);
           })
           .catch((err) => {

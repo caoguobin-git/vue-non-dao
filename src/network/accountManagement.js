@@ -25,11 +25,14 @@ export function releaseRental(data) {
  * 删除供求信息
  */
 export function sendDelete(data) {
+  console.log(data)
+  let ids = data.join(',');
+  console.log(ids)
   return service.request({
-    method: "delete",
+    method: "post",
     url: "/system/webapi/release/del",
     params: {
-      id: data
+      id: ids
     }
   })
 }
