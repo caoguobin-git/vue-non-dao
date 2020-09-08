@@ -29,12 +29,11 @@ export function deleteFavorites(id) {
  * 保存收藏
  */
 export function saveFavorites(data) {
-  console.log(data);
-  let data1 = JSON.stringify(data)
-  console.log(data1)
+  console.log(data)
   return service.request({
     method: "post",
     url: "/system/webapi/collection/saveCollection",
-    data1
+    data:data
   })
 }
+

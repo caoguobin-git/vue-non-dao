@@ -141,7 +141,7 @@ import swiper from "./child/Swiper";
 import leftItem from "./child/LeftItem";
 import rent from "views/rent/child/RentItem";
 import ask from "views/rent/child/AskItem";
-import { saveFavorites } from "network/favorites.js";
+import { saveFavorites,deleteFavorites,getFavorites} from "network/favorites.js";
 import { Mechanicl, RecommendMec } from "network/rentDetails.js";
 
 export default {
@@ -345,6 +345,7 @@ export default {
           people: "张先生",
         },
       ],
+      favorites:{}
     };
   },
   components: {
@@ -395,6 +396,16 @@ export default {
       });
   },
   methods: {
+  
+    getFavorites(data){
+      getFavorites(data)
+      .then(res=>{
+        console.log(res)
+        for (let i = 0; i < res.data.length; i++) {
+          this.$set(this.favorites,res.data[i].cid,res.data[i])
+        }
+      })
+    },
     //获取联系方式点击
     showModal() {
       this.visible = true;
@@ -405,38 +416,55 @@ export default {
     },
     //收藏
     keep() {
-      
-      let data1 =
-          {
-            cid: 13,
-            ctitle: "测试",
-            ctype: this.head.type===1?'出租':'求租',
-            mid: this.$store.state.app.user.user_id
-          }
-      let mid = this.$store.state.app.user.user_id;
-      let data = {
-        cid: this.mid,
-        ctitle: this.Data.name,
-        ctype: this.head.type===1?'出租':'求租',
-        mid: mid,
-      };
-      if (mid) {
-        this.loadingState = !this.loadingState;
-        console.log('mid')
-        saveFavorites(data)
-          .then((res) => {
-            console.log(res)
-            this.loadingState = !this.loadingState;
-            this.Data.keep = !this.Data.keep;
-          })
-          .catch((err) => {
-            console.log('收藏失败')
-            this.loadingState = !this.loadingState;
-            console.log(err);
-          });
-      } else {
-        this.$message.error("请登录");
+      if (!this.Data.keep){
+        let mid = this.$store.state.app.user.user_id;
+        let data = {
+          cid: this.head.id,
+          ctitle: this.Data.name,
+          ctype: this.head.type===1?'出租':'求租',
+          mid: mid,
+        };
+        if (mid) {
+          this.loadingState = !this.loadingState;
+          console.log('mid')
+          saveFavorites(data)
+              .then((res) => {
+                console.log(res)
+                this.getFavorites({mid:this.$store.state.app.user.user_id});
+  
+                if (res.code===200){
+                  this.$message.success(res.msg)
+                  this.loadingState = !this.loadingState;
+                  this.Data.keep = !this.Data.keep;
+                }else if (res.code===500){
+                  this.$message.error(res.msg)
+                  this.loadingState = !this.loadingState;
+                  if (res.msg.indexOf('已收藏信息')!=-1){
+                    this.Data.keep = !this.Data.keep;
+                  }
+                }
+              })
+              .catch((err) => {
+                console.log('收藏失败')
+                this.loadingState = !this.loadingState;
+                console.log(err);
+              });
+        } else {
+          this.$message.error("请登录");
+        }
+      }else {
+        console.log('hello')
+        this.Data.keep=!this.Data.keep
+        
+        deleteFavorites(this.favorites[this.head.id].id)
+        .then(res=>{
+          console.log(res)
+          this.getFavorites({mid:this.$store.state.app.user.user_id});
+          this.$message.success(res.msg)
+        })
       }
+      
+      //this.getFavorites({mid:this.$store.state.app.user.user_id});
     },
     //分页器文字改变
     itemRender(current, type, originalElement) {
@@ -448,6 +476,9 @@ export default {
       return originalElement;
     },
   },
+  mounted() {
+    this.getFavorites({mid:this.$store.state.app.user.user_id});
+  }
 };
 </script>
 

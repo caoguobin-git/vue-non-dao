@@ -77,14 +77,18 @@ export default {
       data,
       columns,
       editingKey: "",
+      favorites:[]
     };
   },
-  created() {
+  activated() {
     //获取我的收藏
     let mid = this.$store.state.app.user.user_id;
+    console.log('获取收藏信息')
     getFavorites(mid)
       .then((res) => {
-        console.log(res);
+        this.favorites.splice(0,100)
+        this.favorites.push(...res.data)
+        console.log(this.favorites)
       })
       .catch((err) => {
         console.log(err);
