@@ -218,3 +218,18 @@ export function Registered(data) {
     }
   })
 }
+
+//上传图片文件
+export function fileUpload(file){
+  return service.request({
+    method: "post",
+    url: "/system/webapi/member/registration",
+    params: {
+      key: data.key,
+      mname: data.mname,
+      mpassword: data.mpassword,
+      mphone: data.mphone,
+      value: data.value,
+    }
+  })
+}

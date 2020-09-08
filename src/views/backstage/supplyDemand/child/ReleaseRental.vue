@@ -17,7 +17,7 @@
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="出厂时间" required prop="date">
-        <a-date-picker v-model="form.date" placeholder="请选择出场时间" style="width: 100%;" />
+        <a-date-picker format="YYYY-MM-DD" @change="hello" v-model="form.date" placeholder="请选择出场时间" style="width: 100%;" />
       </a-form-model-item>
       <a-form-model-item ref="power" label="车辆功率" prop="power">
         <a-input-number :min="1" v-model="form.power" placeholder="请输入车辆功率" />
@@ -49,7 +49,9 @@
         <a-input v-model="form.desc" type="textarea" :rows="6" />
       </a-form-model-item>
       <a-form-model-item label="车辆图片" prop="picture">
-        <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture-card" :file-list="fileList" @preview="handlePreview" @change="handleChange">
+<!--        <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture-card" :file-list="fileList" @preview="handlePreview" @change="handleChange">-->
+        <a-upload action="/system/webapi/mechanicl/upload" name="file" :headers="{'Authorization':'Bearer '+$store.state.userInfo.access_token}" list-type="picture-card" :file-list="fileList" @preview="handlePreview" @change="handleChange">
+<!--        <a-upload :customRequest="fileUpload" list-type="picture-card" :file-list="fileList" @preview="handlePreview" @change="handleChange">-->
           <div v-if="fileList.length < 8">
             <a-icon type="plus" />
             <div class="ant-upload-text">
@@ -71,7 +73,7 @@
         <a-input v-model="form.phone" placeholder="请输入联系电话" />
       </a-form-model-item>
       <a-form-model-item ref="area" label="具体地址" prop="area">
-        <a-cascader v-model="form.area" :options="options" placeholder="请选择地址" @change="onChange" />
+        <a-cascader v-model="form.area" :fieldNames="{label:'label',value:'code',code:'code',children:'children'}" :options="options" placeholder="请选择地址" @change="onChange" />
       </a-form-model-item>
       <a-form-model-item class="none" ref="address" label="具体地址" prop="address">
         <a-input v-model="form.address" type="textarea" :rows="6" />
@@ -99,6 +101,7 @@ export default {
   name: "ReleaseRental",
   data() {
     return {
+      pics:{},
       previewVisible: false,
       previewImage: "",
       fileList: [],
@@ -180,7 +183,7 @@ export default {
             trigger: "blur",
           },
         ],
-        picture: [
+        pic: [
           {
             required: true,
             message: "请上传至少一张图片",
@@ -216,29 +219,54 @@ export default {
           },
         ],
       },
-    };
+    }
   },
   methods: {
+    hello(){
+      console.log(this.form.date.format('YYYY-MM-DD hh:mm:ss'))
+    },
     onSubmit() {
       let data = {
+        title:this.form.title,
+        type:this.form.type,
         addr: this.form.address,
-        area: this.form.area,
+        area: this.form.area[this.form.area.length-1],
         brand: this.form.brand,
         fuel: this.form.fuel,
-        mdate: this.form.date,
+        mdate: this.form.date.format('YYYY-MM-DD hh:mm:ss'),
         linkman: this.form.name,
         linkphone: this.form.phone,
         mechanics: this.form.type,
         power: this.form.power,
-        price: this.form.picture,
-        rlsid: this.form.brand,
+        pic: this.getPics,
+        detail: this.form.desc,
+        rlsid: this.$store.state.userInfo.user_id,
         sizel: this.form.size[0],
       };
+      console.log(data)
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           releaseRental(data)
             .then((res) => {
               console.log(res);
+              //清空并跳转
+             this.$set(this,'form', {
+                title: "",
+                    type: undefined,
+                    brand: undefined,
+                    date: undefined,
+                    power: "",
+                    size: [],
+                    picture: [],
+                    level: "1",
+                    fuel: "1",
+                    desc: "",
+                    name: "",
+                    phone: "",
+                    area: "" || [],
+                    address: "",
+              },)
+              this.$router.push('/manageSupplyDemand')
             })
             .catch((err) => {
               console.log(err);
@@ -259,12 +287,36 @@ export default {
       this.previewImage = file.url || file.preview;
       this.previewVisible = true;
     },
-    handleChange({ fileList }) {
+    handleChange({ file,fileList,event }) {
+      console.log('file')
+      if (typeof file.response != 'undefined'){
+        let res = file.response
+        //console.log(res)
+        
+        this.$set(this.pics,res.fileName,res)
+        console.log(this.pics)
+      }
+      console.log('fileend')
       this.fileList = fileList;
     },
     onChange(value, selectedOptions) {
       this.area = selectedOptions.pop().code;
     },
+    fileUpload(file){
+      console.log(file)
+    }
+  },
+  computed:{
+    getPics(){
+      //遍历生成图片地址
+      let picUrls = []
+      for (let picsKey in this.pics) {
+        if (this.pics[picsKey]!=''){
+          picUrls.push(this.pics[picsKey].fileName)
+        }
+      }
+      return picUrls.join(',')
+    }
   },
   mounted() {
     console.log(this.$route.query.editData)

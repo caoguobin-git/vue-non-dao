@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    userInfo:{},
     nowPath: "",
     indexData: {
       title: "非道网",
@@ -79,6 +80,18 @@ export default new Vuex.Store({
       copy: "版权所有 © 2002, All Rights Reserved."
     },
     imgUrl: "http://60.168.16.182:18088"
+  },
+
+  mutations:{
+    setUserInfo(state,userInfo) {
+      state.userInfo=userInfo;
+    },
+  },
+  actions:{
+    //action中没有state，有默认的上下文context
+    setUserInfo(context,userInfo){
+        context.commit('setUserInfo',userInfo);
+    }
   },
 
   modules: {

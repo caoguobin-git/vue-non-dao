@@ -1,5 +1,19 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+
+//import {
+//  getToKen,
+//  removeToKen,
+//  removeUserName
+//} from "@/utils/app"
+
+import {getToKen,removeToKen,removeUser} from "@/utils/app";
+
+//import store from "../store/index.js"
+
+//白名单
+const whiteRouter = ['/login'];
+
 Vue.use(VueRouter);
 
 //修复路由重复点击报错问题
@@ -9,6 +23,7 @@ VueRouter.prototype.push = function push(location) {
 }
 
 import Layout from 'components/common/layout/Layout.vue';
+import store from "@/store";
 const routes = [{
     path: "/",
     redirect: "index",
@@ -363,5 +378,50 @@ const routes = [{
 const router = new VueRouter({
   routes
 });
+
+
+
+/**
+ * 路由守卫
+ */
+router.beforeEach((to, from, next) => {
+  console.log(to.path)
+  if (to.path==='/index'){
+    next()
+  }
+  //判断是否真实用户登录
+  if (to.path === '/seekRental') {
+    console.log(typeof router.app.$options.store.state.userInfo.username)
+    if ((typeof router.app.$options.store.state.userInfo.username) === 'undefined') {
+      next('/login')
+    }
+  }
+
+  //判断token否存在
+  if (getToKen()) {
+
+    console.log('gettoken')
+    //如果回到登录页 清除token和username vuex和cookie都清除
+    if (to.path === '/login') {
+      removeToKen();
+      //removeUserName();
+      removeUser();
+      store.dispatch('app/setToKenActions', '');
+      store.dispatch('app/setUserNameActions', '');
+      next();
+    } else {
+      next();
+    }
+  } else {
+    //判断要跳转的页面是否是白名单页面
+    if (whiteRouter.indexOf(to.path) !== -1) {
+      next();
+    } else {
+      // root.$message.error("邮箱不能为空！！");
+      next('/login');
+    }
+  }
+})
+
 
 export default router;

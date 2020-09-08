@@ -15,7 +15,7 @@
               v-model="ruleForm.username"
               type="text"
               autocomplete="off"
-              placeholder="请输入手机号码"
+              placeholder="请输入手机号或用户名"
             >
               <a-icon slot="prefix" type="user" />
             </a-input>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { getyanzPicture, trueLogin } from "network/login.js";
+import { getyanzPicture, trueLogin,userLogin } from "network/login.js";
 import { setToKen, setUser } from "utils/app.js";
 import {
   //验证用户名的规则
@@ -151,7 +151,7 @@ export default {
       that.$refs[formName].validate((valid) => {
         if (valid) {
           //发送请求
-          trueLogin(data)
+          userLogin(data)
             .then((res) => {
               //成功设置数据
               // if (res.code == "200") {
@@ -160,6 +160,7 @@ export default {
               setUser(res);
               that.$store.dispatch("app/setToKenActions", res.access_token);
               that.$store.dispatch("app/setUserActions", res);
+              that.$store.dispatch('setUserInfo',res)
               //成功跳转
               that.$router.push("/index");
               // } else if (res.code == "500") {

@@ -14,8 +14,10 @@
                 src=""
                 alt="">
           </div>
-          <h2>{{user.username}}</h2>
-          <p>会员ID:{{user.id}}</p>
+<!--          <h2>{{user.username}}</h2>-->
+<!--          <p>会员ID:{{user.id}}</p>-->
+          <h2>{{$store.state.userInfo.username}}</h2>
+          <p>会员ID:{{$store.state.userInfo.user_id}}</p>
         </div>
         <a-menu
             class="menu"

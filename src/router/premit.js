@@ -16,8 +16,20 @@ const whiteRouter = ['/login'];
  * 路由守卫
  */
 router.beforeEach((to, from, next) => {
+  alert('hello world')
+  console.log(to.path)
+  //判断是否真实用户登录
+  if (to.path === '/seekRental') {
+    console.log(typeof router.app.$options.store.state.userInfo.username)
+    alert('不可以跳转')
+    if ((typeof router.app.$options.store.state.userInfo.username) === 'undefined') {
+      next('/login')
+    }
+  }
+
   //判断token否存在
   if (getToKen()) {
+
     //如果回到登录页 清除token和username vuex和cookie都清除
     if (to.path === '/login') {
       removeToKen();

@@ -69,7 +69,7 @@
             <input id="search" type="text" placeholder="搜索你想要的的" />
             <button>搜索</button>
           </div>
-          <button class="free">免费发布信息</button>
+          <button class="free" @click="$router.push('/seekRental')">免费发布信息</button>
         </div>
       </div>
     </div>
