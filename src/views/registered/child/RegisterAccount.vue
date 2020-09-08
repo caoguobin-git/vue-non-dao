@@ -1,54 +1,24 @@
 <template>
   <div class="VerifyPhone">
-    <a-form-model
-      class="cForm"
-      ref="ruleForm"
-      :model="ruleForm"
-      :rules="rules"
-      v-bind="layout"
-    >
+    <a-form-model class="cForm" ref="ruleForm" :model="ruleForm" :rules="rules" v-bind="layout">
       <a-form-model-item has-feedback prop="username">
-        <a-input
-          size="large"
-          v-model="ruleForm.username"
-          type="text"
-          autocomplete="off"
-          placeholder="请输入用户名"
-        >
+        <a-input size="large" v-model="ruleForm.username" type="text" autocomplete="off" placeholder="请输入用户名">
           <a-icon slot="prefix" type="user" />
         </a-input>
         <p slot="extra">支持中文、字母、数字、“-”“_”的组合，4-20个字符</p>
       </a-form-model-item>
       <a-form-model-item has-feedback prop="password">
-        <a-input-password
-          size="large"
-          v-model="ruleForm.password"
-          type="text"
-          autocomplete="off"
-          placeholder="请输入密码"
-        >
+        <a-input-password size="large" v-model="ruleForm.password" type="text" autocomplete="off" placeholder="请输入密码">
           <a-icon slot="prefix" type="lock" />
         </a-input-password>
       </a-form-model-item>
       <a-form-model-item has-feedback prop="repeat">
-        <a-input-password
-          size="large"
-          v-model="ruleForm.repeat"
-          type="text"
-          autocomplete="off"
-          placeholder="确认密码"
-        >
+        <a-input-password size="large" v-model="ruleForm.repeat" type="text" autocomplete="off" placeholder="确认密码">
           <a-icon slot="prefix" type="lock" />
         </a-input-password>
       </a-form-model-item>
       <a-form-model-item has-feedback prop="phone">
-        <a-input
-          size="large"
-          v-model="ruleForm.phone"
-          type="text"
-          autocomplete="off"
-          placeholder="请输入手机号码"
-        >
+        <a-input size="large" v-model="ruleForm.phone" type="text" autocomplete="off" placeholder="请输入手机号码">
           <a-icon slot="prefix" type="mobile" />
         </a-input>
         <p slot="extra">手机号码将用于接收验证码、找回密码</p>
@@ -56,32 +26,18 @@
       <a-row :gutter="8">
         <a-col :span="14">
           <a-form-model-item has-feedback prop="yanzm">
-            <a-input
-              size="large"
-              v-model="ruleForm.yanzm"
-              type="text"
-              autocomplete="off"
-              placeholder="请输入验证码"
-            >
+            <a-input size="large" v-model="ruleForm.yanzm" type="text" autocomplete="off" placeholder="请输入验证码">
               <a-icon slot="prefix" type="safety" />
             </a-input>
           </a-form-model-item>
         </a-col>
         <a-col :span="10">
           <a-form-model-item>
-            <a-button size="large" type="primary" @click="phoneCode" block
-              >获取短信验证码</a-button
-            >
+            <a-button size="large" type="primary" @click="phoneCode('ruleForm')" block :disabled="buttonStatus.status">{{buttonStatus.text}}</a-button>
           </a-form-model-item>
         </a-col>
       </a-row>
-      <a-button
-        class="orange"
-        size="large"
-        type="primary"
-        @click="submitForm('ruleForm')"
-        >下一步</a-button
-      >
+      <a-button class="orange" size="large" type="primary" @click="submitForm('ruleForm')">下一步</a-button>
       <p class="login">
         已有账号？<router-link to="/login">去登录>></router-link>
         <span class="line"></span>
@@ -202,24 +158,66 @@ export default {
       layout: {
         wrapperCol: { span: 24 },
       },
+      buttonStatus: {
+        status: false,
+        text: "获取短信验证码",
+      },
+      timer: null,
     };
   },
   methods: {
     //获取短信验证码
-    phoneCode() {
+    phoneCode(formName) {
       let phoneNum = this.ruleForm.phone;
       //发送请求
-      RegisteredPhoneCode(phoneNum)
-        .then((res) => {
-          //设置验证码id
-          setPhoneCodeId(res.uuid);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.$refs[formName].validateField("phone", (valid) => {
+        if (!valid) {
+          this.$message.success("验证码已发送");
+          RegisteredPhoneCode(phoneNum)
+            .then((res) => {
+              //设置验证码id
+              setPhoneCodeId(res.uuid);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          let time = 5;
+          let that = this;
+          this.timer = setInterval(() => {
+            time--;
+            console.log(time);
+            if (time === 0) {
+              //重置验证码按钮
+              this.$options.methods.clearCountDown(
+                {
+                  status: false,
+                  text: "重新发送",
+                },
+                that
+              );
+              this.buttonStatus.status = false;
+            } else {
+              this.buttonStatus.text = `倒计时${time}秒`;
+              this.buttonStatus.status = true;
+            }
+          }, 1000);
+        } else {
+          this.$message.error("验证码发送失败");
+          return false;
+        }
+      });
+    },
+    clearCountDown(data, that) {
+      //清除定时器
+      clearInterval(that.timer);
+      //重置验证码按钮状态
+      that.buttonStatus.status = data.status;
+      //重置验证码按钮文本
+      that.buttonStatus.text = data.text;
     },
     //提交表单
     submitForm(formName) {
+      console.log(this.$refs);
       this.$refs[formName].validate((valid) => {
         if (!valid) {
           return false;
@@ -285,10 +283,13 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-
-        //通过验证
       });
     },
+  },
+  beforeDestroy() {
+    // 页面关闭（路由跳转）时清除定时器
+    clearInterval(this.timer);
+    this.timer = null;
   },
 };
 </script>

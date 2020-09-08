@@ -1,12 +1,14 @@
 import axios from "axios";
 import store from "store";
-import { getToKen } from "utils/app.js";
+import {
+  getToKen
+} from "utils/app.js";
 
 // export function request(config) {
 // 1.创建axios的实例
 const service = axios.create({
-  baseURL: "",
-  // baseURL: 'http://mall.rainbase.cn',
+  // baseURL: "",
+  baseURL: 'http://mall.rainbase.cn',
   // baseURL: 'http://lirongxin.cn:1234',
   timeout: 15000,
 });
