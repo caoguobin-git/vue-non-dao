@@ -312,7 +312,7 @@ export default {
       let picUrls = []
       for (let picsKey in this.pics) {
         if (this.pics[picsKey]!=''){
-          picUrls.push(this.pics[picsKey].fileName)
+          picUrls.push(this.pics[picsKey].url)
         }
       }
       return picUrls.join(',')
