@@ -6,8 +6,10 @@
       </a-form-model-item>
       <a-form-model-item label="车辆类型" prop="type">
         <a-select v-model="form.type" placeholder="请选择车辆类型">
-          <a-select-option value="1">1</a-select-option>
-          <a-select-option value="2">2</a-select-option>
+<!--          <a-select-option value="1">1</a-select-option>-->
+<!--          <a-select-option value="2">2</a-select-option>-->
+<!--          <a-select-option  value="2">2</a-select-option>-->
+          <a-select-option :key="item.dictLabel" v-for="item in mechanicsType" :value="item.dictLabel">{{item.dictLabel}}</a-select-option>
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="车辆品牌" prop="brand">
@@ -97,10 +99,12 @@ function getBase64(file) {
   });
 }
 import { releaseRental } from "network/accountManagement.js";
+import { getTagLists } from "@/network/rentDetails";
 export default {
   name: "ReleaseRental",
   data() {
     return {
+      mechanicsType:[],
       pics:{},
       previewVisible: false,
       previewImage: "",
@@ -228,7 +232,7 @@ export default {
     onSubmit() {
       let data = {
         title:this.form.title,
-        type:this.form.type,
+        type:2,
         addr: this.form.address,
         area: this.form.area[this.form.area.length-1],
         brand: this.form.brand,
@@ -254,6 +258,7 @@ export default {
                 title: "",
                mechanics: undefined,
                     brand: undefined,
+                    type: undefined,
                     date: undefined,
                     power: "",
                     size: [],
@@ -304,6 +309,14 @@ export default {
     },
     fileUpload(file){
       console.log(file)
+    },
+    getTypes(){
+      getTagLists().then(res=>{
+        console.log(res)
+        this.mechanicsType.splice(0,100)
+        this.mechanicsType.push(...res.data['api_mechanics_type'])
+        console.log(this.mechanicsType)
+      })
     }
   },
   computed:{
@@ -320,7 +333,7 @@ export default {
   },
   mounted() {
     console.log(this.$route.query.editData)
-
+    this.getTypes()
   }
 };
 </script>
