@@ -401,6 +401,7 @@ export default {
     getFavorites(data) {
       getFavorites(data)
           .then(res => {
+            console.log(res)
             for (let i = 0; i < res.data.length; i++) {
               this.favorites={}
               this.$set(this.favorites, res.data[i].cid, res.data[i])

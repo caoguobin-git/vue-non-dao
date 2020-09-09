@@ -32,3 +32,21 @@ export function trueLogin() {
      }
    })
  }
+
+export function checkToken(token) {
+  return service.request({
+    method: "get",
+    url: "/auth/oauth/check_token",
+    params:{
+      token:token
+    }
+  })
+}
+
+export function refreshToken(params) {
+  return service.request({
+    method: "get",
+    url: "/auth/oauth/token",
+    params
+  })
+}

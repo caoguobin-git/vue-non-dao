@@ -7,7 +7,7 @@ import VueRouter from "vue-router";
 //  removeUserName
 //} from "@/utils/app"
 
-import {getToKen,removeToKen,removeUser} from "@/utils/app";
+import {getToKen, getUserInfo, removeToKen, removeUser} from "@/utils/app";
 
 //import store from "../store/index.js"
 
@@ -24,6 +24,8 @@ VueRouter.prototype.push = function push(location) {
 
 import Layout from 'components/common/layout/Layout.vue';
 import store from "@/store";
+import {checkToken, refreshToken} from "@/network/login";
+import {fakeLogin} from "@/network/app";
 const routes = [{
     path: "/",
     redirect: "index",
@@ -390,23 +392,94 @@ router.beforeEach((to, from, next) => {
     next()
     return
   }
-  //判断是否真实用户登录
-  if (to.path === '/seekRental') {
-    console.log(typeof router.app.$options.store.state.userInfo.username)
-    if ((typeof router.app.$options.store.state.userInfo.username) === 'undefined') {
-      next('/login')
+
+
+//判断登录状态
+  if (typeof router.app.$options.store.state.userInfo.username==='undefined'){
+    let user = getUserInfo()
+    if (typeof user!='undefined'){
+      console.log(user)
+      let userJson = JSON.parse(user)
+      if (userJson.username!=''){
+        //this.$router.push('/index')
+        //检测token有效性
+        console.log(userJson['access_token'])
+        console.log(userJson['username'])
+        checkToken(userJson['access_token'])
+            .then(res=>{
+              console.log(res)
+              //根据res判断token有效性
+              if (res.active){
+                console.log('token有效')
+                router.app.$options.store.dispatch("app/setToKenActions", userJson.access_token);
+                router.app.$options.store.dispatch("app/setUserActions", userJson);
+                router.app.$options.store.dispatch('setUserInfo', userJson)
+                next()
+              }
+              if (res.code===500){
+                let params = {
+                  client_id:'webapi',
+                  client_secret:'123456',
+                  refresh_token:userJson['refresh_token'],
+                  grant_type:'refresh_token',
+                  userType:'webapi',
+                }
+                refreshToken(params).then(res=>{
+                  setToKen(res.access_token);
+                  setUser(res);
+                  router.app.$options.store.dispatch("app/setToKenActions", res.access_token);
+                  router.app.$options.store.dispatch("app/setUserActions", res);
+                  router.app.$options.store.dispatch('setUserInfo', res)
+                  //成功跳转
+                  next()
+                })
+              }
+            })
+        ////刷新token&设置信息
+        //router.app.$options.store.dispatch("app/setToKenActions", user.access_token);
+        //router.app.$options.store.dispatch("app/setUserActions", user);
+        //router.app.$options.store.dispatch('setUserInfo', user)
+      }
+    }else {
+      fakeLogin()
+          .then((res) => {
+            //判断是否已登录
+            if (!getToKen()) {
+              //伪登录用户名清空 因为判断是否登录的条件是 username有值
+              res.username = "";
+              setToKen(res.access_token);
+              this.$store.dispatch("app/setToKenActions", res.access_token);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      //判断是否真实用户登录
+      if (to.path === '/seekRental') {
+        //console.log('判断登录状态')
+        //console.log(router.app.$options.store.state.userInfo)
+        //console.log(typeof router.app.$options.store.state.userInfo)
+        //console.log('判断登录状态')
+        //if ((typeof router.app.$options.store.state.userInfo.username) === 'undefined') {
+        //  console.log('登录校验失败')
+        //  next('/login')
+        //  //next()
+        //}
+        next('/login')
+      }
     }
   }
 
+
+
   //判断token否存在
   if (getToKen()) {
-
     console.log('gettoken')
     //如果回到登录页 清除token和username vuex和cookie都清除
     if (to.path === '/login') {
-      removeToKen();
+      //removeToKen();
       //removeUserName();
-      removeUser();
+      //removeUser();
       store.dispatch('app/setToKenActions', '');
       store.dispatch('app/setUserNameActions', '');
       next();

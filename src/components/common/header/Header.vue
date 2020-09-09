@@ -17,12 +17,12 @@
             </li>
           </ul>
           <div class="detail fl">
-            <div class="login fl" v-if="!user.username">
+            <div class="login fl" v-if="!userExists">
               <router-link to="/login">登录</router-link>
               <span>|</span>
               <router-link to="/registered">注册</router-link>
             </div>
-            <div class="isLogin fl" v-if="!!user.username">
+            <div class="isLogin fl" v-if="userExists">
               <a-avatar
                 class="user"
                 size="small"
@@ -128,7 +128,11 @@ export default {
       return this.$route;
     },
     //登录后信息
-    user() {
+    userExists() {
+      //return this.$store.state.app.user;
+      return typeof this.$store.state.userInfo.username!='undefined'
+    },
+    user(){
       return this.$store.state.app.user;
     },
     //首页信息
@@ -148,6 +152,7 @@ export default {
         okType: "danger",
         cancelText: "取消",
         onOk() {
+          that.$store.commit('logout')
           that.$store.dispatch("app/exitActions").then(() => {
             //路由跳转
             that.$router.push("/login");

@@ -60,7 +60,7 @@ module.exports = {
     disableHostCheck: true, //webpack4.0 开启热更新
     proxy: {
       "/": {
-        target: "http://60.168.16.182:18080/", //API服务器的地址
+        target: "http://114.97.139.251:18080/", //API服务器的地址
         changeOrigin: true,
         pathRewrite: {
           "^/": "/",

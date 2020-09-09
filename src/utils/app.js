@@ -35,6 +35,10 @@ export function getUser() {
   }
 }
 
+export function getUserInfo() {
+    return cookie.get(admin_user);
+}
+
 /**
  * 设置user
  */

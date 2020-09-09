@@ -14,7 +14,7 @@ import {
   getAreaList,
   getAllDictList,
 } from "network/app.js";
-import { setToKen, getToKen } from "utils/app.js";
+import {setToKen, getToKen, removeUser} from "utils/app.js";
 import zhCn from "ant-design-vue/lib/locale-provider/zh_CN";
 export default {
   name: "App",
@@ -65,6 +65,11 @@ export default {
         console.log(err);
       });
   },
+  beforeDestroy() {
+    if (!this.$store.state.rememberMe){
+      removeUser()
+    }
+  }
 };
 </script>
 

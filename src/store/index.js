@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     userInfo:{},
     nowPath: "",
+    rememberMe:true,
     rentRequestParams:{},
     indexData: {
       title: "非道网",
@@ -80,11 +81,14 @@ export default new Vuex.Store({
       littleName: "机械之家",
       copy: "版权所有 © 2002, All Rights Reserved."
     },
-    imgUrl: "http://60.168.16.182:18088",
+    imgUrl: "http://114.97.139.251:18088",
     currentDisplayNewsDetail:{}
   },
 
   mutations:{
+    setRememberMe(state,val){
+      state.rememberMe = val
+    },
     setUserInfo(state,userInfo) {
       state.userInfo=userInfo;
     },
@@ -108,6 +112,10 @@ export default new Vuex.Store({
       //}
       //state.rentRequestParams = data;
       state.rentRequestParams={}
+    },
+    logout(state){
+      state.app.user={}
+      state.userInfo={}
     }
 
   },

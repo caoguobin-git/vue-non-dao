@@ -58,7 +58,7 @@
           </p>
           <a-form-model-item class="bottom">
             <a-checkbox
-                @change="onChange"
+                @change="rememberMe"
                 :defaultChecked="automaticLogin"
                 v-model="ruleForm.checked"
             >
@@ -73,8 +73,8 @@
 </template>
 
 <script>
-import {getyanzPicture, trueLogin, userLogin} from "network/login.js";
-import {setToKen, setUser} from "utils/app.js";
+import {getyanzPicture, trueLogin, userLogin,checkToken} from "network/login.js";
+import {setToKen, setUser,getUserInfo} from "utils/app.js";
 import {
   //验证用户名的规则
   vUsername,
@@ -83,6 +83,7 @@ import {
   //验证手机号的规则
   vPhone,
 } from "utils/validate.js";
+import {refreshToken} from "@/network/login";
 
 export default {
   name: "Login",
@@ -140,6 +141,10 @@ export default {
     };
   },
   methods: {
+    rememberMe(e){
+      let val = e.target.checked;
+      this.$store.commit('setRememberMe',val)
+    },
     //单选框
     onChange(e) {
       this.automaticLogin = e.target.checked;
@@ -203,6 +208,54 @@ export default {
           console.log(err);
         });
   },
+  mounted() {
+    let user = getUserInfo()
+    if (typeof user!='undefined'){
+      console.log(user)
+      let userJson = JSON.parse(user)
+      if (userJson.username!=''){
+        //this.$router.push('/index')
+        //检测token有效性
+        console.log(userJson['access_token'])
+        console.log(userJson['username'])
+        checkToken(userJson['access_token'])
+        .then(res=>{
+          console.log(res)
+          //根据res判断token有效性
+          if (res.active){
+            console.log('token有效')
+            this.$store.dispatch("app/setToKenActions", userJson.access_token);
+            this.$store.dispatch("app/setUserActions", userJson);
+            this.$store.dispatch('setUserInfo', userJson)
+          }
+          if (res.code===500){
+            let params = {
+              client_id:'webapi',
+              client_secret:'123456',
+              refresh_token:userJson['refresh_token'],
+              grant_type:'refresh_token',
+              userType:'webapi',
+            }
+            refreshToken(params).then(res=>{
+              setToKen(res.access_token);
+              setUser(res);
+              this.$store.dispatch("app/setToKenActions", res.access_token);
+              this.$store.dispatch("app/setUserActions", res);
+              this.$store.dispatch('setUserInfo', res)
+              //成功跳转
+              this.$router.push("/index");
+            })
+          }
+        })
+        //刷新token&设置信息
+        this.$store.dispatch("app/setToKenActions", user.access_token);
+        this.$store.dispatch("app/setUserActions", user);
+        this.$store.dispatch('setUserInfo', user)
+      }
+    }else {
+      console.log(user)
+    }
+  }
 };
 </script>
 

@@ -8,17 +8,17 @@
     <banner :banner="advTop"></banner>
     <!-- 主营业务 -->
     <business
-      :businessLeft="businessLeft"
-      :businessRight="businessRight.slice(0,6)"
+        :businessLeft="businessLeft"
+        :businessRight="businessRight.slice(0,6)"
     ></business>
     <banner :banner="advMid"></banner>
     <!--新闻中心 -->
     <news
-      :left3="left3"
-      :newsRightUp="newsRightUp"
-      :newsRightMid="newsRightMid"
-      :newsRightBottom="newsRightBottom"
-      :NewsRec="NewsRec"
+        :left3="left3"
+        :newsRightUp="newsRightUp"
+        :newsRightMid="newsRightMid"
+        :newsRightBottom="newsRightBottom"
+        :NewsRec="NewsRec"
     ></news>
     <banner :banner="advBottom"></banner>
     <!--供求市场 -->
@@ -56,7 +56,9 @@ import {
   getPicMain,
   getCenterRec,
 } from "network/app.js";
-import { setToKen, getToKen } from "utils/app.js";
+import {setToKen, getToKen} from "utils/app.js";
+import {getUserInfo} from "@/utils/app";
+import router from "@/router";
 
 export default {
   name: "Index",
@@ -92,40 +94,30 @@ export default {
     prcture,
     center,
   },
-  created() {
-    // 伪登录
-    fakeLogin()
-      .then((res) => {
-        //判断是否已登录
-        if (!getToKen()) {
-          //伪登录用户名清空 因为判断是否登录的条件是 username有值
-          res.username = "";
-          setToKen(res.access_token);
-          this.$store.dispatch("app/setToKenActions", res.access_token);
-        }
-
-        //获取头部广告
-        getAdvTop()
+  methods:{
+    getDatas(){
+      //获取头部广告
+      getAdvTop()
           .then((res) => {
             this.advTop = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-        let releseData = {
-          area: "",
-          fuel: "",
-          level: "",
-          mechanics: "",
-          page: "",
-          pageSize: "",
-          priceRange: "",
-          sort: "",
-          timeRange: "",
-          type: "",
-        };
-        //获取主营业务 机械信息获取
-        getRelease(releseData)
+      let releseData = {
+        area: "",
+        fuel: "",
+        level: "",
+        mechanics: "",
+        page: "",
+        pageSize: "",
+        priceRange: "",
+        sort: "",
+        timeRange: "",
+        type: "",
+      };
+      //获取主营业务 机械信息获取
+      getRelease(releseData)
           .then((res) => {
             console.log(res)
             this.businessRight = res.list;
@@ -143,59 +135,59 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-
-        //获取中部广告
-        getAdvMid()
+  
+      //获取中部广告
+      getAdvMid()
           .then((res) => {
             this.advMid = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-
-        //网站主页新闻--左侧三条大图新闻
-        getNewsLeft3()
+  
+      //网站主页新闻--左侧三条大图新闻
+      getNewsLeft3()
           .then((res) => {
             this.left3 = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-
-        //新闻信息获取
-        getNewsRightUp()
+  
+      //新闻信息获取
+      getNewsRightUp()
           .then((res) => {
             this.newsRightUp = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-        getNewsRightMid()
+      getNewsRightMid()
           .then((res) => {
             this.newsRightMid = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-        getNewsRightDown()
+      getNewsRightDown()
           .then((res) => {
             this.newsRightBottom = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-
-        //获取推荐广告--新闻中心右侧广告
-        getNewsRec()
+  
+      //获取推荐广告--新闻中心右侧广告
+      getNewsRec()
           .then((res) => {
             this.NewsRec.list = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-
-        //获取网站首页图库
-        getPicMain()
+  
+      //获取网站首页图库
+      getPicMain()
           .then((res) => {
             // console.log(res.list);
             this.PicMain = res.list;
@@ -203,28 +195,83 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-
-        //获取底部广告;
-        getAdvBottom()
+  
+      //获取底部广告;
+      getAdvBottom()
           .then((res) => {
             this.advBottom = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-
-        //获取推荐广告--购机中心右侧广告
-        getCenterRec()
+  
+      //获取推荐广告--购机中心右侧广告
+      getCenterRec()
           .then((res) => {
             this.CenterRec.list = res.list;
           })
           .catch((err) => {
             console.log(err);
           });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }
+  },
+  activated() {
+    let user = getUserInfo();
+    console.log(user)
+    
+    if (typeof user === 'undefined') {
+      // 伪登录
+      fakeLogin()
+          .then((res) => {
+            //判断是否已登录
+            if (!getToKen()) {
+              //伪登录用户名清空 因为判断是否登录的条件是 username有值
+              res.username = "";
+              setToKen(res.access_token);
+              this.$store.dispatch("app/setToKenActions", res.access_token);
+            }
+            
+            this.getDatas()
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    }else {
+      let userJson=JSON.parse(user);
+      this.$store.dispatch("app/setToKenActions", userJson.access_token);
+      this.$store.dispatch("app/setUserActions", userJson);
+      this.$store.dispatch('setUserInfo', userJson)
+      this.getDatas()
+    }
+  },
+  mounted() {
+    let user = getUserInfo();
+    console.log(user)
+    
+    if (typeof user === 'undefined') {
+      // 伪登录
+      fakeLogin()
+          .then((res) => {
+            //判断是否已登录
+            if (!getToKen()) {
+              //伪登录用户名清空 因为判断是否登录的条件是 username有值
+              res.username = "";
+              setToKen(res.access_token);
+              this.$store.dispatch("app/setToKenActions", res.access_token);
+            }
+            
+            this.getDatas()
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    }else {
+      let userJson=JSON.parse(user);
+      this.$store.dispatch("app/setToKenActions", userJson.access_token);
+      this.$store.dispatch("app/setUserActions", userJson);
+      this.$store.dispatch('setUserInfo', userJson)
+      this.getDatas()
+    }
   },
 };
 </script>
