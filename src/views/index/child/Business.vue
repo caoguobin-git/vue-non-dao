@@ -14,7 +14,7 @@
           <div class="item" v-for="(item, index) in tagListArray" :key="index">
             <p><i class="iconfont" :class="getTag(index).icon"></i>{{ getTag(index).result }}</p>
             <ul>
-              <li @click="$router.push('/rent?tag='+item1.dictLabel+'&dictType='+item1.dictType)" v-for="(item1, index1) in tagListArray[index]" :key="index1">
+              <li @click="toSearchPage(item1)" v-for="(item1, index1) in tagListArray[index]" :key="index1">
                 <!--                <router-link :to="item.href">-->
                 <!--                  {{ item.name }}-->
                 <!--                </router-link>-->
@@ -159,6 +159,15 @@ export default {
     };
   },
   methods: {
+    toSearchPage(item){
+      let payload={
+        type:item.dictType,
+        value:item.dictLabel
+      }
+      this.$store.commit('clearRentRequestParams')
+      this.$store.commit('setRentRequestParams',payload)
+      this.$router.push('/rent?tag='+item.dictLabel+'&dictType='+item.dictType)
+    },
     //点击切换选中项
     navClick(index) {
       this.currentIndex = index;

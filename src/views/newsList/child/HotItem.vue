@@ -18,6 +18,7 @@ export default {
     itemClick(item) {
       //todo 点击改变新闻信息
       console.log('hello')
+      this.$store.commit('setCurrentDisplayNewsDetail',item)
       this.$emit("changeNews",item)
     },
   }

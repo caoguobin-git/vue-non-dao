@@ -263,12 +263,21 @@ export default {
   },
   mounted() {
     this.newsData = this.$route.query.newsData;
+    this.newsData=this.$store.state.currentDisplayNewsDetail
     console.log(this.newsData);
     // this.getNewsList()
     this.getAdvRecommend3();
     this.getNewsRecommend();
     this.getRandomNews(3);
   },
+  activated() {
+    this.newsData = this.$route.query.newsData;
+    console.log(this.newsData);
+    // this.getNewsList()
+    this.getAdvRecommend3();
+    this.getNewsRecommend();
+    this.getRandomNews(3);
+  }
 };
 </script>
 

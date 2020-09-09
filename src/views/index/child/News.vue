@@ -74,6 +74,7 @@ export default {
   components: { like },
   methods: {
     itemClick(item) {
+      this.$store.commit('setCurrentDisplayNewsDetail',item)
       this.$router.push({
         path: "/news",
         query: {

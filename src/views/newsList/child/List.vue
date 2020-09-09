@@ -25,6 +25,9 @@ export default {
     toNewsDetailPage(data) {
       console.log(data);
       if (this.$route.path.indexOf("news") != -1) {
+  
+        this.$store.commit('setCurrentDisplayNewsDetail',data)
+  
         this.$emit("changeNews", data);
       } else {
         this.$router.push({

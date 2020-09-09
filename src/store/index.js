@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     userInfo:{},
     nowPath: "",
+    rentRequestParams:{},
     indexData: {
       title: "非道网",
       nav: [{
@@ -79,13 +80,36 @@ export default new Vuex.Store({
       littleName: "机械之家",
       copy: "版权所有 © 2002, All Rights Reserved."
     },
-    imgUrl: "http://60.168.16.182:18088"
+    imgUrl: "http://60.168.16.182:18088",
+    currentDisplayNewsDetail:{}
   },
 
   mutations:{
     setUserInfo(state,userInfo) {
       state.userInfo=userInfo;
     },
+    setRentRequestParams(state,payload){
+      let data = Object.assign({},state.rentRequestParams);
+      if (payload.value!='') {
+        data[payload.type] = payload.value
+      }else {
+       delete data[payload.type]
+      }
+      state.rentRequestParams = data;
+    },
+    setCurrentDisplayNewsDetail(state,payload) {
+      state.currentDisplayNewsDetail = payload
+    },
+    //清空搜索条件
+    clearRentRequestParams(state){
+      //let data = Object.assign({},state.rentRequestParams);
+      //for (let dataKey in data) {
+      //  delete data[dataKey]
+      //}
+      //state.rentRequestParams = data;
+      state.rentRequestParams={}
+    }
+
   },
   actions:{
     //action中没有state，有默认的上下文context

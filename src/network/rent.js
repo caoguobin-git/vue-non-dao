@@ -46,6 +46,6 @@ export function getRentList(params){
   return service.request({
     method:'get',
     url:'/system/webapi/index/release',
-    params:params
+    params
   })
 }

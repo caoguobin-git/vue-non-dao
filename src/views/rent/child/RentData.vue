@@ -184,12 +184,41 @@ export default {
     },
 
     getRentList(){
-      getRentList(this.rentRequestParams)
+      //设置请求参数
+      let params = {}
+      params.page=this.rentRequestParams.page;
+      params.pageSize=this.rentRequestParams.pageSize;
+      params.type=this.rentRequestParams.type;
+      for (let rentKey in this.$store.state.rentRequestParams) {
+        if ('api_belong_type'===rentKey){
+          params.owner=this.$store.state.rentRequestParams[rentKey]
+        }else         if ('api_fuel_type'===rentKey){
+          params.fuel=this.$store.state.rentRequestParams[rentKey]
+        }else         if ('api_level_type'===rentKey){
+          params.level=this.$store.state.rentRequestParams[rentKey]
+        }else         if ('api_mechanics_type'===rentKey){
+          params.mechanics=this.$store.state.rentRequestParams[rentKey]
+        }else         if ('api_out_pice'===rentKey){
+          params.priceRange=this.$store.state.rentRequestParams[rentKey]
+        }else         if ('api_uptime_type'===rentKey){
+          params.timeRange=this.$store.state.rentRequestParams[rentKey]
+        }else {
+          params[rentKey]=this.$store.state.rentRequestParams[rentKey]
+        }
+      }
+      getRentList(params)
       .then(res=>{
         console.log(res)
         //清空数据
         this.rentList.splice(0,1000)
-        this.rentList.push(...res.list)
+        for (let i = 0;i<res.list.length;i++){
+          this.rentList.push(res.list[i])
+        }
+      console.log(this.rentList)
+        //for (let listElement of res.list) {
+        //  this.rentList.push(listElement)
+        //}
+        //this.rentList.push(...)
         this.total=res.rows
       })
     },
@@ -197,13 +226,27 @@ export default {
       console.log('hello get rent')
       this.$set(this.rentRequestParams,'page',val)
       this.getRentList();
+    },
+    resetParams(){
+      this.$set(this.rentRequestParams,'page',1)
+      this.$set(this.rentRequestParams,'pageSize',2)
+  
     }
   },
-  activated() {
+  mounted() {
     this.getRentList()
   },
   computed:{
-
+  },
+  watch:{
+    '$store.state.rentRequestParams':{
+      handler(newVal){
+        console.log(newVal)
+        this.resetParams()
+        this.getRentList()
+      },
+      deep:true
+    }
   }
 };
 </script>

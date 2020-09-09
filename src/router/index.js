@@ -386,8 +386,9 @@ const router = new VueRouter({
  */
 router.beforeEach((to, from, next) => {
   console.log(to.path)
-  if (to.path==='/index'  || to.path==='/registerAccount'){
+  if (to.path==='/index' || to.path==='/registerAccount' || to.path==='/verifyPhone'){
     next()
+    return
   }
   //判断是否真实用户登录
   if (to.path === '/seekRental') {

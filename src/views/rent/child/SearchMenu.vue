@@ -5,12 +5,6 @@
         class="w">
       <div
           class="searchMenu">
-        <!--        <div class="item" v-for="(bItem,index1) in MenuData" :key="index1">-->
-        <!--          <span><i>*</i>{{bItem.name}}</span>-->
-        <!--          <div class="rightBox">-->
-        <!--            <searchItme :bItem="bItem"></searchItme>-->
-        <!--          </div>-->
-        <!--        </div>-->
 
         <div
             class="item"
@@ -20,35 +14,11 @@
           <div
               class="rightBox">
             <searchItme
-                :type="$route.query.dictType"
+                :type="item[item.length-1].dictType"
                 :activeTagContent="$route.query.tag"
                 :bItem="item"></searchItme>
           </div>
         </div>
-<!--        <select-->
-<!--            v-model="selectedProv">-->
-<!--          <option-->
-<!--              v-for="item in prov"-->
-<!--              :value="item">-->
-<!--            {{item.name}}-->
-<!--          </option>-->
-<!--        </select>-->
-<!--        <select-->
-<!--            v-model="selectedCity">-->
-<!--          <option-->
-<!--              v-for="item in city"-->
-<!--              :value="item">-->
-<!--            {{item.name}}-->
-<!--          </option>-->
-<!--        </select>-->
-<!--        <select-->
-<!--            v-model="selectArea">-->
-<!--          <option-->
-<!--              v-for="item in area"-->
-<!--              :value="item">-->
-<!--            {{item.name}}-->
-<!--          </option>-->
-<!--        </select>-->
       </div>
     </div>
   </div>
@@ -67,180 +37,7 @@ export default {
   data() {
     return {
       tagLists: {},
-      // MenuData: [
-      //   {
-      //     name: "机械类型",
-      //     hot: true,
-      //     item: [
-      //       {
-      //         src: "",
-      //         name: "a",
-      //         active: true,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "b",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "c",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "b",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "c",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "b",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "c",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "b",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "c",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     name: "机械类型",
-      //     hot: true,
-      //     item: [
-      //       {
-      //         src: "",
-      //         name: "1",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "6",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "1",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //       {
-      //         src: "",
-      //         name: "不限",
-      //         active: false,
-      //       },
-      //     ],
-      //   },
-      // ],
+     
       cityLists: [],
       selectedProv: {
         id:1
@@ -286,13 +83,12 @@ export default {
   },
   mounted() {
     this.getTagLists()
-    //获取激活的数据：比如：挖掘机
-    // console.log(this.$route.query.tag)
     getCityList().then(res => {
       this.cityLists = res.data
       console.log(this.cityLists)
     })
-    console.log(this.cityLists)
+    //console.log(this.cityLists)
+    console.log(this.$route.query.tag);
   },
   computed: {
     tagListArray() {

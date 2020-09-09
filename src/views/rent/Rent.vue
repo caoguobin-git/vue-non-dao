@@ -27,14 +27,6 @@ export default {
     let num = this.num;
     let size = this.size;
     let rlsid = this.$store.state.app.user.user_id;
-    // getList(num, size, rlsid)
-    //   .then((res) => {
-    //     console.log(res);
-    //     this.list = res;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
     getStateList(data)
       .then((res) => {
         console.log(res);

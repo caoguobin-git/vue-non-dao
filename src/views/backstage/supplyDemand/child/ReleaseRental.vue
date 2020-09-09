@@ -252,7 +252,7 @@ export default {
               //清空并跳转
              this.$set(this,'form', {
                 title: "",
-                    type: undefined,
+               mechanics: undefined,
                     brand: undefined,
                     date: undefined,
                     power: "",

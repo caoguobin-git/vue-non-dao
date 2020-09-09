@@ -5,7 +5,7 @@
       <div class="title">
         <div class="mt">
           <div class="con">
-            <span>{{price}}</span>/{{continued}}
+            <span>{{price}}</span>/{{rentData.unit}}
           </div>
           <div class="line">|</div>
           <div class="address">{{rentData.addr}}</div>

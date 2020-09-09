@@ -53,7 +53,15 @@ export default {
     itemClick(index) {
       //高亮
       this.currentIndex = index;
-      console.log(this.bItem)
+      console.log(index)
+      console.log(this.bItem[index])
+      let payload={
+        type:this.type,
+        value:index ===-1?'':this.bItem[index].dictLabel
+      }
+      console.log(this.type);
+      this.$store.commit('setRentRequestParams',payload)
+      console.log(this.$store.state.rentRequestParams)
     },
     //点击更多
     moreClick(index) {
@@ -77,16 +85,36 @@ export default {
     if (this.$refs.ul.offsetHeight > 60) {
       this.overflow = true;
     }
+    for (let i = 0; i < this.bItem.length; i++) {
+      if (this.bItem[i].dictLabel === this.activeTagContent && this.type===this.bItem[i].dictType) {
+        this.currentIndex = i;
+        let payload={
+          type:this.type,
+          value:this.activeTagContent
+        }
+        this.$store.commit('setRentRequestParams',payload)
+  
+        break;
+      }
+    }
   },
   watch: {
     bItem(val) {
       for (let i = 0; i < val.length; i++) {
         if (val[i].dictLabel === this.activeTagContent && this.type===val[i].dictType) {
           this.currentIndex = i;
+          let payload={
+            type:this.type,
+            value:this.activeTagContent
+          }
+          this.$store.commit('setRentRequestParams',payload)
           break;
         }
       }
     }
+  },
+  deactivated() {
+    this.$store.commit('clearRentRequestParams')
   }
 };
 </script>
