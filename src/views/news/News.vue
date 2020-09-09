@@ -220,6 +220,9 @@ export default {
     },
     getNewsList() {
       getNewsList(this.newListParams).then((res) => {
+        console.log('new list ')
+        console.log(res)
+        console.log('new list ')
         // this.newsList.splice(0,1000)
         this.newsList.push(...res.list);
         this.totalNews = res.rows;
